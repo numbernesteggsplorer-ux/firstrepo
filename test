@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Value Controller</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .value-display {
+            font-size: 3rem;
+            margin: 1rem 0;
+            min-width: 100px;
+            padding: 0.5rem;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        button {
+            padding: 0.5rem 1rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.2s;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            margin: 1rem 0;
+            height: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Value Controller</h1>
+        <div class="value-display" id="valueDisplay">0</div>
+        
+        <div class="controls">
+            <button id="decrementBtn">-</button>
+            <button id="incrementBtn">+</button>
+        </div>
+        
+        <input type="range" id="slider" min="-50" max="50" value="0">
+    </div>
+
+    <script>
+        // Get DOM elements
+        const valueDisplay = document.getElementById('valueDisplay');
+        const decrementBtn = document.getElementById('decrementBtn');
+        const incrementBtn = document.getElementById('incrementBtn');
+        const slider = document.getElementById('slider');
+        
+        // Set initial value
+        let currentValue = 0;
+        const minValue = -50;
+        const maxValue = 50;
+        
+        // Update display function
+        function updateDisplay(value) {
+            currentValue = value;
+            valueDisplay.textContent = currentValue;
+            slider.value = currentValue;
+            
+            // Update button states
+            decrementBtn.disabled = currentValue <= minValue;
+            incrementBtn.disabled = currentValue >= maxValue;
+        }
+        
+        // Event listeners
+        decrementBtn.addEventListener('click', () => {
+            if (currentValue > minValue) {
+                updateDisplay(currentValue - 1);
+            }
+        });
+        
+        incrementBtn.addEventListener('click', () => {
+            if (currentValue < maxValue) {
+                updateDisplay(currentValue + 1);
+            }
+        });
+        
+        slider.addEventListener('input', () => {
+            updateDisplay(parseInt(slider.value));
+        });
+        
+        // Initialize
+        updateDisplay(currentValue);
+    </script>
+</body>
+</html>
